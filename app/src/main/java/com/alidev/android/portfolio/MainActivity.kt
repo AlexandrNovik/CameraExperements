@@ -14,15 +14,18 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), CameraPreviewRender.OnSurfaceCreatedListener {
     private val camera = AppCamera()
+    private val cameraPreviewRender = CameraPreviewRender(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        GLUtil.init(this)
+        GLUtil.init(this) // TODO: move to app or better get rid of this static
+
         glSurfaceView.setEGLContextClientVersion(3)
-        val cameraPreviewRender = CameraPreviewRender(this)
         glSurfaceView.setRenderer(cameraPreviewRender)
+
+        // TODO: deal with permissions correctly
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 2222)
     }
 
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity(), CameraPreviewRender.OnSurfaceCreatedLi
     override fun onCreated(texture: SurfaceTexture) {
         Handler(Looper.getMainLooper()).post {
             camera.openCamera(glSurfaceView, texture, this)
+            cameraPreviewRender.setUseFront(true)
         }
     }
 }

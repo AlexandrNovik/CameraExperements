@@ -45,7 +45,7 @@ public class CameraFilter extends OesFilter {
     public int[] frameBuffer = new int[1];
     public int[] frameTexture = new int[1];
 
-    public boolean useFront = false;
+    public boolean useFront = true;
 
     public boolean isUseFront() {
         return useFront;

@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 
 import com.alidev.android.portfolio.gl.filter.CameraFilter;
 import com.alidev.android.portfolio.gl.filter.ColorFilter;
+import com.alidev.android.portfolio.gl.utils.MatrixUtil;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -58,6 +59,14 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
         this.listener = listener;
         cameraFilter = new CameraFilter();
         colorFilter = new ColorFilter();
+    }
+
+    public void setUseFront(boolean useFront) {
+        if (this.useFront != useFront) {
+            this.useFront = useFront;
+            cameraFilter.setUseFront(useFront);
+            matrix = MatrixUtil.flip(matrix, true, false);
+        }
     }
 
     public SurfaceTexture getSurfaceTexture() {
