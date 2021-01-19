@@ -34,7 +34,7 @@ import static android.opengl.GLES20.glTexParameterf;
 
 public class CameraPreviewRender implements GLSurfaceView.Renderer {
     public interface OnSurfaceCreatedListener {
-        void onCreated(SurfaceTexture texture);
+        void onSurfaceCreated(SurfaceTexture texture);
     }
 
     boolean useFront = false;
@@ -93,7 +93,7 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         createTexture();
         surfaceTexture = new SurfaceTexture(cameraTexture[0]);
-        listener.onCreated(surfaceTexture);
+        listener.onSurfaceCreated(surfaceTexture);
         cameraFilter.onSurfaceCreated();
         colorFilter.onSurfaceCreated();
     }

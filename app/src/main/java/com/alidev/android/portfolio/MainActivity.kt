@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), CameraPreviewRender.OnSurfaceCreatedLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        GLUtil.init(this) // TODO: move to app or better get rid of this static
+        GLUtil.init(applicationContext) // TODO: move to app or better to get rid of this static
 
         glSurfaceView.setEGLContextClientVersion(3)
         glSurfaceView.setRenderer(cameraPreviewRender)
@@ -29,15 +29,15 @@ class MainActivity : AppCompatActivity(), CameraPreviewRender.OnSurfaceCreatedLi
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 2222)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        camera.closeCamera()
-    }
-
-    override fun onCreated(texture: SurfaceTexture) {
+    override fun onSurfaceCreated(texture: SurfaceTexture) {
         Handler(Looper.getMainLooper()).post {
             camera.openCamera(glSurfaceView, texture, this)
             cameraPreviewRender.setUseFront(true)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        camera.closeCamera()
     }
 }
