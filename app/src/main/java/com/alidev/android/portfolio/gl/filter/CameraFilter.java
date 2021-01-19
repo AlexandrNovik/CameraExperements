@@ -26,7 +26,6 @@ import static android.opengl.GLES20.glTexParameterf;
 
 public class CameraFilter extends OesFilter {
 
-    //后置相机，顺时针旋转90度
     public static final float[] textureCoordCameraBack = {
             1.0f, 1.0f,
             0.0f, 1.0f,
@@ -34,7 +33,6 @@ public class CameraFilter extends OesFilter {
             1.0f, 0.0f
     };
 
-    //前置相机，逆时针旋转90度
     public static final float[] textureCoordCameraFront = {
             0.0f, 0.0f,
             1.0f, 0.0f,

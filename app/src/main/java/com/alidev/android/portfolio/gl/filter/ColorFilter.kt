@@ -1,60 +1,49 @@
-package com.alidev.android.portfolio.gl.filter;
+package com.alidev.android.portfolio.gl.filter
 
-import com.alidev.android.portfolio.R;
-import com.alidev.android.portfolio.gl.utils.GLUtil;
+import android.opengl.GLES20
+import com.alidev.android.portfolio.R
+import com.alidev.android.portfolio.gl.utils.GLUtil
 
-import static android.opengl.GLES20.GL_TEXTURE0;
-import static android.opengl.GLES20.GL_TEXTURE_2D;
-import static android.opengl.GLES20.glActiveTexture;
-import static android.opengl.GLES20.glBindTexture;
-import static android.opengl.GLES20.glGetUniformLocation;
-import static android.opengl.GLES20.glUniform1i;
-
-
-public class ColorFilter extends BaseFilter {
-
-    public static final String UNIFORM_COLOR_FLAG = "colorFlag";
-    public static final String UNIFORM_TEXTURE_LUT = "textureLUT";
-
-    public static int COLOR_FLAG = 0;
-    public static int COLOR_FLAG_USE_LUT = 6;
-
-    public int hColorFlag;
-    public int hTextureLUT;
-    private int LUTTextureId;
-
-    @Override
-    public void onSurfaceCreated() {
-        super.onSurfaceCreated();
-        LUTTextureId = GLUtil.loadTextureFromRes(R.drawable.amatorka);
+class ColorFilter : BaseFilter() {
+    private var hColorFlag = 0
+    private var hTextureLUT = 0
+    private var LUTTextureId = 0
+    override fun onSurfaceCreated() {
+        super.onSurfaceCreated()
+        LUTTextureId = GLUtil.loadTextureFromRes(R.drawable.amatorka)
     }
 
-    @Override
-    public int initProgram() {
-        return GLUtil.createAndLinkProgram(R.raw.texture_vertex_shader, R.raw.texture_color_fragtment_shader);
+    override fun initProgram(): Int {
+        return GLUtil.createAndLinkProgram(
+            R.raw.texture_vertex_shader,
+            R.raw.texture_color_fragtment_shader
+        )
     }
 
-    @Override
-    public void initAttribLocations() {
-        super.initAttribLocations();
-
-        hColorFlag = glGetUniformLocation(program, UNIFORM_COLOR_FLAG);
-        hTextureLUT = glGetUniformLocation(program, UNIFORM_TEXTURE_LUT);
+    override fun initAttribLocations() {
+        super.initAttribLocations()
+        hColorFlag = GLES20.glGetUniformLocation(program, UNIFORM_COLOR_FLAG)
+        hTextureLUT = GLES20.glGetUniformLocation(program, UNIFORM_TEXTURE_LUT)
     }
 
-    @Override
-    public void setExtend() {
-        super.setExtend();
-        glUniform1i(hColorFlag, COLOR_FLAG);
+    override fun setExtend() {
+        super.setExtend()
+        GLES20.glUniform1i(hColorFlag, COLOR_FLAG)
     }
 
-    @Override
-    public void bindTexture() {
-        super.bindTexture();
-        if (COLOR_FLAG == COLOR_FLAG_USE_LUT){
-            glActiveTexture(GL_TEXTURE0 + 1);
-            glBindTexture(GL_TEXTURE_2D, LUTTextureId);
-            glUniform1i(hTextureLUT, 1);
+    override fun bindTexture() {
+        super.bindTexture()
+        if (COLOR_FLAG == COLOR_FLAG_USE_LUT) {
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + 1)
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, LUTTextureId)
+            GLES20.glUniform1i(hTextureLUT, 1)
         }
+    }
+
+    companion object {
+        const val UNIFORM_COLOR_FLAG = "colorFlag"
+        const val UNIFORM_TEXTURE_LUT = "textureLUT"
+        var COLOR_FLAG = 0
+        var COLOR_FLAG_USE_LUT = 6
     }
 }

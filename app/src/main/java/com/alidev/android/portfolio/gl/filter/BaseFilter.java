@@ -36,10 +36,10 @@ public class BaseFilter {
     public static final String UNIFORM_MATRIX = "u_matrix";
 
     public static final float[] vertex ={
-            -1f,1f,0.0f,//左上
-            -1f,-1f,0.0f,//左下
-            1f,-1f,0.0f,//右下
-            1f,1f,0.0f//右上
+            -1f,1f,0.0f,
+            -1f,-1f,0.0f,
+            1f,-1f,0.0f,
+            1f,1f,0.0f
     };
 
     public static final float[] textureCoord = {
