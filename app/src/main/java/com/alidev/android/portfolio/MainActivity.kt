@@ -13,15 +13,11 @@ import com.alidev.android.portfolio.gl_2.utils.GLUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), CameraPreviewRender.OnSurfaceCreatedListener {
-        private val camera = AppCamera()
-//    private val camera = Camera2()
+    private val camera = AppCamera()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        viewFinder.post {
-//            camera.openCamera2(viewFinder, this)
-//        }
 
         GLUtil.init(this)
         glSurfaceView.setEGLContextClientVersion(3)

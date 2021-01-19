@@ -106,6 +106,13 @@ class AppCamera {
                 .setTargetRotation(rotation)
                 .build()
 
+//            // ImageCapture
+//            imageCapture = ImageCapture.Builder()
+//                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+//                .setTargetResolution(resolution)
+//                .setTargetRotation(rotation)
+//                .build()
+
 //            imageAnalyzer = ImageAnalysis.Builder()
 //                // We request aspect ratio but no resolution
 //                .setTargetResolution(resolution)
@@ -123,7 +130,7 @@ class AppCamera {
                 // A variable number of use-cases can be passed here -
                 // camera provides access to CameraControl & CameraInfo
                 camera =
-                    cameraProvider.bindToLifecycle(owner, cameraSelector, preview)
+                    cameraProvider.bindToLifecycle(owner, cameraSelector, preview, imageCapture)
 
                 preview?.setSurfaceProvider {
                     it.provideSurface(Surface(texture), cameraExecutor, {})
