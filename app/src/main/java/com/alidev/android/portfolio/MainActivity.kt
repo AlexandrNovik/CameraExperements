@@ -8,8 +8,8 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.alidev.android.portfolio.camera.AppCamera
-import com.alidev.android.portfolio.gl_2.render.CameraPreviewRender
-import com.alidev.android.portfolio.gl_2.utils.GLUtil
+import com.alidev.android.portfolio.gl.render.CameraPreviewRender
+import com.alidev.android.portfolio.gl.utils.GLUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), CameraPreviewRender.OnSurfaceCreatedListener {

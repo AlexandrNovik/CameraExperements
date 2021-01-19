@@ -1,8 +1,8 @@
-package com.alidev.android.portfolio.gl_2.filter;
+package com.alidev.android.portfolio.gl.filter;
 
 import com.alidev.android.portfolio.R;
-import com.alidev.android.portfolio.gl_2.utils.CommonUtil;
-import com.alidev.android.portfolio.gl_2.utils.GLUtil;
+import com.alidev.android.portfolio.gl.utils.CommonUtil;
+import com.alidev.android.portfolio.gl.utils.GLUtil;
 
 import java.nio.FloatBuffer;
 

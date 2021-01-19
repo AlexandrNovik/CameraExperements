@@ -1,4 +1,4 @@
-package com.alidev.android.portfolio.gl_2.utils;
+package com.alidev.android.portfolio.gl.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;

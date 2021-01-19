@@ -1,6 +1,6 @@
-package com.alidev.android.portfolio.gl_2.filter;
+package com.alidev.android.portfolio.gl.filter;
 
-import com.alidev.android.portfolio.gl_2.utils.CommonUtil;
+import com.alidev.android.portfolio.gl.utils.CommonUtil;
 
 import static android.opengl.GLES20.GL_CLAMP_TO_EDGE;
 import static android.opengl.GLES20.GL_COLOR_ATTACHMENT0;

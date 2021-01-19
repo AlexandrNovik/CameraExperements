@@ -1,10 +1,10 @@
-package com.alidev.android.portfolio.gl_2.render;
+package com.alidev.android.portfolio.gl.render;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
 
-import com.alidev.android.portfolio.gl_2.filter.CameraFilter;
-import com.alidev.android.portfolio.gl_2.filter.ColorFilter;
+import com.alidev.android.portfolio.gl.filter.CameraFilter;
+import com.alidev.android.portfolio.gl.filter.ColorFilter;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

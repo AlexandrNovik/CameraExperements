@@ -1,9 +1,9 @@
-package com.alidev.android.portfolio.gl_2.filter;
+package com.alidev.android.portfolio.gl.filter;
 
 import android.opengl.GLES11Ext;
 
 import com.alidev.android.portfolio.R;
-import com.alidev.android.portfolio.gl_2.utils.GLUtil;
+import com.alidev.android.portfolio.gl.utils.GLUtil;
 
 import static android.opengl.GLES20.GL_TEXTURE0;
 import static android.opengl.GLES20.glActiveTexture;
