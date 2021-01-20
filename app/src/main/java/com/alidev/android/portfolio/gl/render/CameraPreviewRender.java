@@ -5,6 +5,8 @@ import android.opengl.GLSurfaceView;
 
 import com.alidev.android.portfolio.gl.filter.CameraFilter;
 import com.alidev.android.portfolio.gl.filter.ColorFilter;
+import com.alidev.android.portfolio.gl.filter.GlitchFilter;
+import com.alidev.android.portfolio.gl.filter.PalaroidFilter;
 import com.alidev.android.portfolio.gl.utils.MatrixUtil;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -48,6 +50,8 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
 
     CameraFilter cameraFilter;
     ColorFilter colorFilter;
+    PalaroidFilter palaroidFilter;
+    GlitchFilter glitchFilter;
     int width, height;
 
     int[] exportFrame = new int[1];
@@ -59,6 +63,8 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
         this.listener = listener;
         cameraFilter = new CameraFilter();
         colorFilter = new ColorFilter();
+        palaroidFilter = new PalaroidFilter();
+        glitchFilter = new GlitchFilter();
     }
 
     public void setUseFront(boolean useFront) {
@@ -96,6 +102,8 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
         listener.onSurfaceCreated(surfaceTexture);
         cameraFilter.onSurfaceCreated();
         colorFilter.onSurfaceCreated();
+        palaroidFilter.onSurfaceCreated();
+        glitchFilter.onSurfaceCreated();
     }
 
     @Override
@@ -106,6 +114,8 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
 
             cameraFilter.onSurfaceChanged(width, height);
             colorFilter.onSurfaceChanged(width, height);
+            palaroidFilter.onSurfaceChanged(width, height);
+            glitchFilter.onSurfaceChanged(width, height);
 
             delFrameBufferAndTexture();
             genFrameBufferAndTexture();
@@ -122,6 +132,11 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
         cameraFilter.onDraw();
         colorFilter.setTextureId(cameraFilter.getOutputTextureId());
         colorFilter.onDraw();
+        glitchFilter.setTextureId(cameraFilter.getOutputTextureId());
+        glitchFilter.onDraw();
+        // TODO: find out how to make it work at the same time
+//        palaroidFilter.setTextureId(cameraFilter.getOutputTextureId());
+//        palaroidFilter.onDraw();
     }
 
     private void createTexture() {

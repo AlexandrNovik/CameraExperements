@@ -31,10 +31,6 @@ class AppCamera {
         texture.setDefaultBufferSize(view.height, view.width)
 
         val rotation = view.display.rotation
-
-        texture.setOnFrameAvailableListener {
-            if (view is GLSurfaceView) view.requestRender()
-        }
         // Bind the CameraProvider to the LifeCycleOwner
         val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)

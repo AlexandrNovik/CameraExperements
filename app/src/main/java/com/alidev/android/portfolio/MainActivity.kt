@@ -33,6 +33,9 @@ class MainActivity : AppCompatActivity(), CameraPreviewRender.OnSurfaceCreatedLi
         Handler(Looper.getMainLooper()).post {
             camera.openCamera(glSurfaceView, texture, this)
             cameraPreviewRender.setUseFront(true)
+            texture.setOnFrameAvailableListener {
+                glSurfaceView.requestRender()
+            }
         }
     }
 
