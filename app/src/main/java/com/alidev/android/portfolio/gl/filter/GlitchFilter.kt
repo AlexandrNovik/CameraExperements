@@ -4,7 +4,7 @@ import android.opengl.GLES20
 import com.alidev.android.portfolio.R
 import com.alidev.android.portfolio.gl.utils.GLUtil
 
-class GlitchFilter : BaseFilter() {
+internal class GlitchFilter : FrameBufferedFilter() {
     private var time = 0.0f
     private var iTime: Int = 0
     private val skipTimeout = 10

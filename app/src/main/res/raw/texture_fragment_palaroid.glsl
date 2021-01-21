@@ -3,7 +3,7 @@
     uniform float iTime;                 // shader playback time (in seconds)
 
     in vec2 v_texCoord;
-    out vec4 outColor;
+    out vec4 outColor1;
     uniform sampler2D s_texture;
 
     float easeLinear(float t, float b, float c, float d)
@@ -61,5 +61,5 @@
                 }
 
         vec4 base = texture(s_texture, uv);
-        outColor = mix(base, developed(base), lerp);
+        outColor1 = mix(base, developed(base), lerp);
     }

@@ -4,7 +4,7 @@ import android.opengl.GLES20
 import com.alidev.android.portfolio.R
 import com.alidev.android.portfolio.gl.utils.GLUtil
 
-class ColorFilter : BaseFilter() {
+internal class ColorFilter : FrameBufferedFilter() {
     private var hColorFlag = 0
     private var hTextureLUT = 0
     private var LUTTextureId = 0

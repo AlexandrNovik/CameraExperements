@@ -129,14 +129,16 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
         }
 
         cameraFilter.setTextureId(cameraTexture);
-        cameraFilter.onDraw();
+        cameraFilter.onDraw(true);
+
         colorFilter.setTextureId(cameraFilter.getOutputTextureId());
-        colorFilter.onDraw();
-        glitchFilter.setTextureId(cameraFilter.getOutputTextureId());
-        glitchFilter.onDraw();
-        // TODO: find out how to make it work at the same time
-//        palaroidFilter.setTextureId(cameraFilter.getOutputTextureId());
-//        palaroidFilter.onDraw();
+        colorFilter.onDraw(true);
+
+        palaroidFilter.setTextureId(cameraFilter.getOutputTextureId());
+        palaroidFilter.onDraw(true);
+
+        glitchFilter.setTextureId(palaroidFilter.getOutputTextureId());
+        glitchFilter.onDraw(false);
     }
 
     private void createTexture() {
@@ -150,7 +152,6 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
 
     public void genFrameBufferAndTexture() {
         glGenFramebuffers(exportFrame.length, exportFrame, 0);
-
         glGenTextures(exportTexture.length, exportTexture, 0);
         glBindTexture(GL_TEXTURE_2D, exportTexture[0]);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, null);

@@ -4,7 +4,7 @@ import android.opengl.GLES20
 import com.alidev.android.portfolio.R
 import com.alidev.android.portfolio.gl.utils.GLUtil
 
-internal class PalaroidFilter : BaseFilter() {
+internal class PalaroidFilter : FrameBufferedFilter() {
     private var iTime: Int = 0
     private var time = 0.0f
 

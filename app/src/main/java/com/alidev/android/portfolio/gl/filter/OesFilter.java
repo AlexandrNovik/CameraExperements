@@ -10,7 +10,7 @@ import static android.opengl.GLES20.glActiveTexture;
 import static android.opengl.GLES20.glBindTexture;
 import static android.opengl.GLES20.glUniform1i;
 
-public class OesFilter extends BaseFilter{
+public class OesFilter extends FrameBufferedFilter {
 
     public OesFilter() {
         super();
