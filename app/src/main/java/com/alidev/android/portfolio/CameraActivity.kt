@@ -9,18 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.alidev.android.portfolio.camera.AppCamera
 import com.alidev.android.portfolio.gl.render.CameraPreviewRender
-import com.alidev.android.portfolio.gl.utils.GLUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), CameraPreviewRender.OnSurfaceCreatedListener {
+class CameraActivity : AppCompatActivity(), CameraPreviewRender.OnSurfaceCreatedListener {
     private val camera = AppCamera()
     private val cameraPreviewRender = CameraPreviewRender(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        GLUtil.init(applicationContext) // TODO: move to app or better to get rid of this static
 
         glSurfaceView.setEGLContextClientVersion(3)
         glSurfaceView.setRenderer(cameraPreviewRender)
