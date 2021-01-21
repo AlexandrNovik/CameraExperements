@@ -54,9 +54,6 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
     GlitchFilter glitchFilter;
     int width, height;
 
-    int[] exportFrame = new int[1];
-    int[] exportTexture = new int[1];
-
     private final OnSurfaceCreatedListener listener;
 
     public CameraPreviewRender(OnSurfaceCreatedListener listener) {
@@ -116,9 +113,6 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
             colorFilter.onSurfaceChanged(width, height);
             palaroidFilter.onSurfaceChanged(width, height);
             glitchFilter.onSurfaceChanged(width, height);
-
-            delFrameBufferAndTexture();
-            genFrameBufferAndTexture();
         }
     }
 
@@ -143,36 +137,6 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
 
     private void createTexture() {
         glGenTextures(cameraTexture.length, cameraTexture, 0);
-    }
-
-    public void delFrameBufferAndTexture() {
-        glDeleteFramebuffers(exportFrame.length, exportFrame, 0);
-        glDeleteTextures(exportTexture.length, exportTexture, 0);
-    }
-
-    public void genFrameBufferAndTexture() {
-        glGenFramebuffers(exportFrame.length, exportFrame, 0);
-        glGenTextures(exportTexture.length, exportTexture, 0);
-        glBindTexture(GL_TEXTURE_2D, exportTexture[0]);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, null);
-        setTextureParameters();
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
-
-    public void setTextureParameters() {
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    }
-
-    public void bindFrameBufferAndTexture() {
-        glBindFramebuffer(GL_FRAMEBUFFER, exportFrame[0]);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, exportTexture[0], 0);
-    }
-
-    public void unBindFrameBuffer() {
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.alidev.android.portfolio.camera
 
 import android.graphics.SurfaceTexture
-import android.opengl.GLSurfaceView
 import android.util.DisplayMetrics
 import android.util.Size
 import android.view.Surface
@@ -12,6 +11,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.alidev.android.portfolio.utils.Logger
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -26,7 +26,7 @@ class AppCamera {
         val context = view.context
         // Get screen metrics used to setup camera for full screen resolution
         val metrics = DisplayMetrics().also { view.display.getRealMetrics(it) }
-        println("@@@ Screen metrics: ${metrics.widthPixels} x ${metrics.heightPixels}")
+        Logger.d("@@@ Screen metrics: ${metrics.widthPixels} x ${metrics.heightPixels}")
 
         texture.setDefaultBufferSize(view.height, view.width)
 
@@ -57,12 +57,10 @@ class AppCamera {
                     it.provideSurface(Surface(texture), cameraExecutor, {})
                 }
             } catch (exc: Exception) {
-                println("@@@ Use case binding failed: $exc")
+                Logger.d("@@@ Use case binding failed: $exc")
             }
 
         }, ContextCompat.getMainExecutor(context))
-
-
     }
 
     fun closeCamera() {
