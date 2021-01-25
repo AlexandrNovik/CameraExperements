@@ -5,9 +5,14 @@
     android:layout_height="match_parent"
     tools:context=".CameraActivity">
 
-    <android.opengl.GLSurfaceView
-        android:id="@+id/glSurfaceView"
+    <FrameLayout
+        android:id="@+id/mainCameraContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <!--    <android.opengl.GLSurfaceView-->
+    <!--        android:id="@+id/glSurfaceView"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,19 +16,20 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class AppCamera {
+    var texture: SurfaceTexture? = null
     private var lensFacing: Int = CameraSelector.LENS_FACING_FRONT
     private var preview: Preview? = null
     private var camera: Camera? = null
 
     private val cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
 
-    fun openCamera(view: View, texture: SurfaceTexture, owner: LifecycleOwner) {
+    fun openCamera(view: View, owner: LifecycleOwner) {
         val context = view.context
         // Get screen metrics used to setup camera for full screen resolution
         val metrics = DisplayMetrics().also { view.display.getRealMetrics(it) }
         Logger.d("@@@ Screen metrics: ${metrics.widthPixels} x ${metrics.heightPixels}")
 
-        texture.setDefaultBufferSize(view.height, view.width)
+        texture?.setDefaultBufferSize(view.height, view.width)
 
         val rotation = view.display.rotation
         // Bind the CameraProvider to the LifeCycleOwner
