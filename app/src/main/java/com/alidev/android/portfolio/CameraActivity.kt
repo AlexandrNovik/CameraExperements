@@ -9,7 +9,7 @@ import android.os.Looper
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.alidev.android.portfolio.camera.AppCamera
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.getKoin
 import org.koin.core.qualifier.named
 
@@ -19,14 +19,14 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private lateinit var camera: AppCamera
-    private lateinit var mainGLSurfaceView: GLSurfaceView
+    private lateinit var gLSurfaceView: GLSurfaceView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        mainGLSurfaceView = getKoin().get(named("mainGLSurfaceView"))
-        camera = getKoin().get(named("mainCamera"))
-        addTextureView()
+        setContentView(R.layout.activity_camera)
+        gLSurfaceView = getKoin().get(named("gLSurfaceView"))
+        camera = getKoin().get(named("camera"))
+        addGlSurfaceView()
         requestPermissions()
     }
 
@@ -50,12 +50,12 @@ class CameraActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         camera.closeCamera()
-        removeTexture()
+        removeGlSurfaceView()
     }
 
-    private fun addTextureView() {
-        mainGLSurfaceView.parent?.let { (it as ViewGroup).removeView(mainGLSurfaceView) }
-        mainCameraContainer.addView(mainGLSurfaceView, 0,
+    private fun addGlSurfaceView() {
+        gLSurfaceView.parent?.let { (it as ViewGroup).removeView(gLSurfaceView) }
+        mainCameraContainer.addView(gLSurfaceView, 0,
             ViewGroup.LayoutParams(mainCameraContainer.layoutParams)
                 .apply {
                     width = ViewGroup.LayoutParams.MATCH_PARENT
@@ -63,8 +63,8 @@ class CameraActivity : AppCompatActivity() {
                 })
     }
 
-    private fun removeTexture() {
-        mainGLSurfaceView.parent?.let { (it as ViewGroup).removeView(mainGLSurfaceView) }
+    private fun removeGlSurfaceView() {
+        gLSurfaceView.parent?.let { (it as ViewGroup).removeView(gLSurfaceView) }
         mainCameraContainer.removeAllViews()
     }
 

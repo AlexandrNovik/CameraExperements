@@ -8,27 +8,24 @@ import org.koin.dsl.module
 
 val cameraModule = module {
 
-    single(named("mainGLSurfaceView")) {
+    single(named("gLSurfaceView")) {
         GLSurfaceView(get()).apply {
             setEGLContextClientVersion(3)
         }
     }
 
-    single(named("mainCamera")) {
-        val camera = AppCamera()
-        val glView = get(named("mainGLSurfaceView")) as GLSurfaceView
-        CameraPreviewRender {
-            it.setOnFrameAvailableListener {
-                glView.requestRender()
+    single(named("camera")) {
+        val glView = get(named("gLSurfaceView")) as GLSurfaceView
+        AppCamera().apply {
+            CameraPreviewRender {
+                texture = it.apply {
+                    setOnFrameAvailableListener { glView.requestRender() }
+                }
             }
-            camera.texture = it
-
+                .apply {
+                    setUseFront(true)
+                    glView.setRenderer(this)
+                }
         }
-            .apply {
-                setUseFront(true)
-                glView.setRenderer(this)
-            }
-        camera
     }
-
 }
