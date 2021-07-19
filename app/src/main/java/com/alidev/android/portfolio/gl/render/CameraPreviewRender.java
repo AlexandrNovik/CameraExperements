@@ -128,7 +128,7 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
         colorFilter.setTextureId(cameraFilter.getOutputTextureId());
         colorFilter.onDraw(true);
 
-        palaroidFilter.setTextureId(cameraFilter.getOutputTextureId());
+        palaroidFilter.setTextureId(colorFilter.getOutputTextureId());
         palaroidFilter.onDraw(true);
 
         glitchFilter.setTextureId(palaroidFilter.getOutputTextureId());

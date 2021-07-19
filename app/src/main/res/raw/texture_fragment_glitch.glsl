@@ -103,7 +103,7 @@
             return vec4(colr, colg, colb, 1.0);
         }
 
-        return vec4(mask, 1.0);
+        return vec4(colr, colg, colb, 1.0);
     }
 
     void main()

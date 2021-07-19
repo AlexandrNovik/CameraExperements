@@ -26,7 +26,7 @@ internal class GlitchFilter : FrameBufferedFilter() {
         super.setExtend()
         if (skipTimeout == skipped) {
             skipped = 0
-            if (time >= 10) time = 0f
+            if (time >= 100) time = 0f
             GLES20.glUniform1f(iTime, time++)
         }
         skipped++
