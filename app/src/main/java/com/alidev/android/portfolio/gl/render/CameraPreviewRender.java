@@ -5,7 +5,7 @@ import static android.opengl.GLES20.glGenTextures;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
 
-import com.alidev.android.portfolio.data.manager.EffectsManager;
+import com.alidev.android.portfolio.data.manager.EffectsController;
 import com.alidev.android.portfolio.gl.filter.CameraPreview;
 import com.alidev.android.portfolio.gl.utils.MatrixUtil;
 
@@ -27,12 +27,12 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
 
     private final CameraPreview cameraPreview;
     private final OnSurfaceCreatedListener listener;
-    private final EffectsManager effectsManager;
+    private final EffectsController effectsController;
 
-    public CameraPreviewRender(EffectsManager manager,
+    public CameraPreviewRender(EffectsController controller,
                                OnSurfaceCreatedListener listener) {
         this.listener = listener;
-        this.effectsManager = manager;
+        this.effectsController = controller;
         cameraPreview = new CameraPreview();
     }
 
@@ -50,7 +50,7 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
         surfaceTexture = new SurfaceTexture(cameraTexture[0]);
         listener.onSurfaceCreated(surfaceTexture);
         cameraPreview.onSurfaceCreated();
-        effectsManager.onSurfaceCreated();
+        effectsController.onSurfaceCreated();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
             this.height = height;
 
             cameraPreview.onSurfaceChanged(width, height);
-            effectsManager.onSurfaceChanged(width, height);
+            effectsController.onSurfaceChanged(width, height);
         }
     }
 
@@ -70,8 +70,8 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
             surfaceTexture.updateTexImage();
         }
         cameraPreview.setTextureId(cameraTexture);
-        cameraPreview.onDraw(effectsManager.getHaveToApplyEffects());
-        effectsManager.applyFilters(cameraPreview.getOutputTextureId());
+        cameraPreview.onDraw(effectsController.getHaveToApplyEffects());
+        effectsController.applyFilters(cameraPreview.getOutputTextureId());
     }
 
     private void createTexture() {

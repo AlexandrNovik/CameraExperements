@@ -2,6 +2,8 @@ package com.alidev.android.portfolio.di
 
 import android.opengl.GLSurfaceView
 import com.alidev.android.portfolio.data.camera.AppCamera
+import com.alidev.android.portfolio.data.manager.EffectsController
+import com.alidev.android.portfolio.data.manager.EffectsDataManager
 import com.alidev.android.portfolio.data.manager.EffectsManager
 import com.alidev.android.portfolio.data.repository.EffectsRepository
 import com.alidev.android.portfolio.gl.render.CameraPreviewRender
@@ -17,8 +19,17 @@ val cameraModule = module {
         }
     }
 
+    val effectsDataManager: BeanDefinition<EffectsDataManager> =
+        single(named("effectsDataManager")) {
+            EffectsDataManager()
+        }
+
     val effectsManager: BeanDefinition<EffectsManager> = single(named("effectsManager")) {
-        EffectsManager.Impl()
+        get(named("effectsDataManager")) as EffectsDataManager
+    }
+
+    val effectsController: BeanDefinition<EffectsController> = single(named("effectsController")) {
+        get(named("effectsDataManager")) as EffectsDataManager
     }
 
     val effectsRepository: BeanDefinition<EffectsRepository> = single(named("effectsRepository")) {
@@ -27,9 +38,9 @@ val cameraModule = module {
 
     single(named("camera")) {
         val glView = get(named("gLSurfaceView")) as GLSurfaceView
-        val effectsManager = get(named("effectsManager")) as EffectsManager
+        val effectsController = get(named("effectsController")) as EffectsController
         AppCamera().apply {
-            CameraPreviewRender(effectsManager) { surfaceTexture ->
+            CameraPreviewRender(effectsController) { surfaceTexture ->
                 texture = surfaceTexture.apply {
                     setOnFrameAvailableListener { glView.requestRender() }
                 }
