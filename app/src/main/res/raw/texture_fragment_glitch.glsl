@@ -57,7 +57,7 @@
         return id;
     }
 
-    vec3 banuba_color()
+    vec3 change_color()
     {
         const vec3 colorA = vec3(1.0f, 0.78f, 0.278f);
         const vec3 colorB = vec3(1.0f, 0.78f, 0.278f);
@@ -93,7 +93,7 @@
         float colg = texture(s_texture, uv).g;
         float colb = texture(s_texture, uv + offs).b;
 
-        vec3 mask = banuba_color();
+        vec3 mask = change_color();
 
         float maskNoise = blockyNoise(uv, interlaceIntesnsity, 90.0, iTime) * max(displace, offs.x);
 

@@ -1,95 +1,47 @@
 package com.alidev.android.portfolio.gl.render;
 
+import static android.opengl.GLES20.glGenTextures;
+
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
 
-import com.alidev.android.portfolio.gl.filter.CameraFilter;
-import com.alidev.android.portfolio.gl.filter.ColorFilter;
-import com.alidev.android.portfolio.gl.filter.GlitchFilter;
-import com.alidev.android.portfolio.gl.filter.PalaroidFilter;
+import com.alidev.android.portfolio.data.manager.EffectsManager;
+import com.alidev.android.portfolio.gl.filter.CameraPreview;
 import com.alidev.android.portfolio.gl.utils.MatrixUtil;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
-import static android.opengl.GLES20.GL_CLAMP_TO_EDGE;
-import static android.opengl.GLES20.GL_COLOR_ATTACHMENT0;
-import static android.opengl.GLES20.GL_FRAMEBUFFER;
-import static android.opengl.GLES20.GL_LINEAR;
-import static android.opengl.GLES20.GL_NEAREST;
-import static android.opengl.GLES20.GL_RGBA;
-import static android.opengl.GLES20.GL_TEXTURE_2D;
-import static android.opengl.GLES20.GL_TEXTURE_MAG_FILTER;
-import static android.opengl.GLES20.GL_TEXTURE_MIN_FILTER;
-import static android.opengl.GLES20.GL_TEXTURE_WRAP_S;
-import static android.opengl.GLES20.GL_TEXTURE_WRAP_T;
-import static android.opengl.GLES20.GL_UNSIGNED_BYTE;
-import static android.opengl.GLES20.glBindFramebuffer;
-import static android.opengl.GLES20.glBindTexture;
-import static android.opengl.GLES20.glDeleteFramebuffers;
-import static android.opengl.GLES20.glDeleteTextures;
-import static android.opengl.GLES20.glFramebufferTexture2D;
-import static android.opengl.GLES20.glGenFramebuffers;
-import static android.opengl.GLES20.glGenTextures;
-import static android.opengl.GLES20.glTexImage2D;
-import static android.opengl.GLES20.glTexParameterf;
 
 public class CameraPreviewRender implements GLSurfaceView.Renderer {
     public interface OnSurfaceCreatedListener {
         void onSurfaceCreated(SurfaceTexture texture);
     }
 
-    boolean useFront = false;
-    float[] matrix = new float[16];
+    private boolean useFront = false;
+    private float[] matrix = new float[16];
 
-    boolean takingPhoto = false;
-    boolean recordingVideo = false;
+    private SurfaceTexture surfaceTexture;
+    private final int[] cameraTexture = new int[1];
 
-    SurfaceTexture surfaceTexture;
-    int[] cameraTexture = new int[1];
+    private int width, height;
 
-    CameraFilter cameraFilter;
-    ColorFilter colorFilter;
-    PalaroidFilter palaroidFilter;
-    GlitchFilter glitchFilter;
-    int width, height;
-
+    private final CameraPreview cameraPreview;
     private final OnSurfaceCreatedListener listener;
+    private final EffectsManager effectsManager;
 
-    public CameraPreviewRender(OnSurfaceCreatedListener listener) {
+    public CameraPreviewRender(EffectsManager manager,
+                               OnSurfaceCreatedListener listener) {
         this.listener = listener;
-        cameraFilter = new CameraFilter();
-        colorFilter = new ColorFilter();
-        palaroidFilter = new PalaroidFilter();
-        glitchFilter = new GlitchFilter();
+        this.effectsManager = manager;
+        cameraPreview = new CameraPreview();
     }
 
     public void setUseFront(boolean useFront) {
         if (this.useFront != useFront) {
             this.useFront = useFront;
-            cameraFilter.setUseFront(useFront);
+            cameraPreview.setUseFront(useFront);
             matrix = MatrixUtil.flip(matrix, true, false);
         }
-    }
-
-    public SurfaceTexture getSurfaceTexture() {
-        return surfaceTexture;
-    }
-
-    public boolean isTakingPhoto() {
-        return takingPhoto;
-    }
-
-    public void setTakingPhoto(boolean takingPhoto) {
-        this.takingPhoto = takingPhoto;
-    }
-
-    public boolean isRecordingVideo() {
-        return recordingVideo;
-    }
-
-    public void setRecordingVideo(boolean recordingVideo) {
-        this.recordingVideo = recordingVideo;
     }
 
     @Override
@@ -97,10 +49,8 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
         createTexture();
         surfaceTexture = new SurfaceTexture(cameraTexture[0]);
         listener.onSurfaceCreated(surfaceTexture);
-        cameraFilter.onSurfaceCreated();
-        colorFilter.onSurfaceCreated();
-        palaroidFilter.onSurfaceCreated();
-        glitchFilter.onSurfaceCreated();
+        cameraPreview.onSurfaceCreated();
+        effectsManager.onSurfaceCreated();
     }
 
     @Override
@@ -109,10 +59,8 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
             this.width = width;
             this.height = height;
 
-            cameraFilter.onSurfaceChanged(width, height);
-            colorFilter.onSurfaceChanged(width, height);
-            palaroidFilter.onSurfaceChanged(width, height);
-            glitchFilter.onSurfaceChanged(width, height);
+            cameraPreview.onSurfaceChanged(width, height);
+            effectsManager.onSurfaceChanged(width, height);
         }
     }
 
@@ -121,18 +69,9 @@ public class CameraPreviewRender implements GLSurfaceView.Renderer {
         if (surfaceTexture != null) {
             surfaceTexture.updateTexImage();
         }
-
-        cameraFilter.setTextureId(cameraTexture);
-        cameraFilter.onDraw(true);
-
-        colorFilter.setTextureId(cameraFilter.getOutputTextureId());
-        colorFilter.onDraw(true);
-
-        palaroidFilter.setTextureId(colorFilter.getOutputTextureId());
-        palaroidFilter.onDraw(true);
-
-        glitchFilter.setTextureId(palaroidFilter.getOutputTextureId());
-        glitchFilter.onDraw(false);
+        cameraPreview.setTextureId(cameraTexture);
+        cameraPreview.onDraw(effectsManager.getHaveToApplyEffects());
+        effectsManager.applyFilters(cameraPreview.getOutputTextureId());
     }
 
     private void createTexture() {

@@ -8,7 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.alidev.android.portfolio.camera.AppCamera
+import com.alidev.android.portfolio.data.camera.AppCamera
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.getKoin
 import org.koin.core.qualifier.named

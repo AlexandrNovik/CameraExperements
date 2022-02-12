@@ -1,4 +1,4 @@
-package com.alidev.android.portfolio.camera
+package com.alidev.android.portfolio.data.camera
 
 import android.graphics.SurfaceTexture
 import android.util.DisplayMetrics
@@ -36,10 +36,9 @@ class AppCamera {
         val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
         cameraProviderFuture.addListener({
-            // CameraProvider
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             val resolution = Size(view.height, view.width)
-            // Preview
+
             preview = Preview.Builder()
                 .setTargetResolution(resolution)
                 .setTargetRotation(rotation)
@@ -49,16 +48,14 @@ class AppCamera {
             cameraProvider.unbindAll()
 
             try {
-                // A variable number of use-cases can be passed here -
-                // camera provides access to CameraControl & CameraInfo
                 camera =
                     cameraProvider.bindToLifecycle(owner, cameraSelector, preview)
 
                 preview?.setSurfaceProvider {
                     it.provideSurface(Surface(texture), cameraExecutor, {})
                 }
-            } catch (exc: Exception) {
-                Logger.d("@@@ Use case binding failed: $exc")
+            } catch (e: Exception) {
+                Logger.e("[CAMERA] Binding failed", e)
             }
 
         }, ContextCompat.getMainExecutor(context))

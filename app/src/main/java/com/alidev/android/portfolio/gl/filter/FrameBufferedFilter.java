@@ -22,7 +22,7 @@ import static android.opengl.GLES20.glGenTextures;
 import static android.opengl.GLES20.glTexImage2D;
 import static android.opengl.GLES20.glTexParameterf;
 
-class FrameBufferedFilter extends BaseFilter {
+public class FrameBufferedFilter extends Filter {
     public int[] frameBuffer = new int[1];
     public int[] frameTexture = new int[1];
 
@@ -40,12 +40,12 @@ class FrameBufferedFilter extends BaseFilter {
     }
 
     public void onDraw(boolean shouldBuffer) {
-        if (shouldBuffer){
+        if (shouldBuffer) {
             bindFrameBufferAndTexture();
-            super.onDraw(shouldBuffer);
+            super.onDraw(false);
             unBindFrameBuffer();
         } else {
-            super.onDraw(shouldBuffer);
+            super.onDraw(false);
         }
     }
 

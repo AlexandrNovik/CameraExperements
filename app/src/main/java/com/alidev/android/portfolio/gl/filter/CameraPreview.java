@@ -24,7 +24,7 @@ import static android.opengl.GLES20.glGenTextures;
 import static android.opengl.GLES20.glTexImage2D;
 import static android.opengl.GLES20.glTexParameterf;
 
-public class CameraFilter extends OesFilter {
+public class CameraPreview extends OesFilter {
 
     public static final float[] textureCoordCameraBack = {
             1.0f, 1.0f,
@@ -54,7 +54,7 @@ public class CameraFilter extends OesFilter {
         }
     }
 
-    public CameraFilter() {
+    public CameraPreview() {
         super();
     }
 

@@ -46,7 +46,7 @@ import static android.opengl.GLES20.glUseProgram;
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static android.opengl.GLES20.glViewport;
 
-public class BaseFilter {
+public class Filter {
     public static final String VERTEX_ATTRIB_POSITION = "a_Position";
     public static final int VERTEX_ATTRIB_POSITION_SIZE = 3;
     public static final String VERTEX_ATTRIB_TEXTURE_POSITION = "a_texCoord";
@@ -92,7 +92,7 @@ public class BaseFilter {
         this.matrix = matrix;
     }
 
-    public BaseFilter() {
+    public Filter() {
         initBuffer();
     }
 
@@ -187,7 +187,7 @@ public class BaseFilter {
     }
 
     public void draw() {
-        glDrawArrays(GL_TRIANGLE_FAN, 0, vertex.length / 3);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
     }
 
     public void disableVertexAttribs() {
