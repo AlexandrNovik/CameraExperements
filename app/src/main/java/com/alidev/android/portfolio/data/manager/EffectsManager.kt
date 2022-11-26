@@ -31,14 +31,14 @@ class EffectsDataManager : EffectsManager, EffectsController {
             Glitch to GlitchFilter(),
         )
 
-    private val applyEffects = setOf<Filter>()
+    private val applyEffects = mutableSetOf<Filter>()
 
     override fun add(effect: Effect) {
-        applyEffects.plus(effectsMap[effect])
+        effectsMap[effect]?.let(applyEffects::add)
     }
 
     override fun remove(effect: Effect) {
-        applyEffects.minus(effectsMap[effect])
+        effectsMap[effect]?.let(applyEffects::remove)
     }
 
     override fun onSurfaceChanged(width: Int, height: Int) {

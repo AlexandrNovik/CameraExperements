@@ -9,6 +9,8 @@ import android.os.Looper
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.alidev.android.portfolio.data.camera.AppCamera
+import com.alidev.android.portfolio.data.manager.EffectsManager
+import com.alidev.android.portfolio.domain.entity.Effect
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.getKoin
 import org.koin.core.qualifier.named
@@ -19,6 +21,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private lateinit var camera: AppCamera
+    private lateinit var effectsManager: EffectsManager
     private lateinit var gLSurfaceView: GLSurfaceView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,8 +29,19 @@ class CameraActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera)
         gLSurfaceView = getKoin().get(named("gLSurfaceView"))
         camera = getKoin().get(named("camera"))
+        effectsManager = getKoin().get(named("effectsManager"))
         addGlSurfaceView()
         requestPermissions()
+        fabPlus.setOnClickListener {
+            effectsManager.add(Effect.Glitch)
+            effectsManager.add(Effect.Color)
+            effectsManager.add(Effect.Palaroid)
+        }
+        fabMinus.setOnClickListener {
+            effectsManager.remove(Effect.Glitch)
+            effectsManager.remove(Effect.Color)
+            effectsManager.remove(Effect.Palaroid)
+        }
     }
 
     override fun onRequestPermissionsResult(

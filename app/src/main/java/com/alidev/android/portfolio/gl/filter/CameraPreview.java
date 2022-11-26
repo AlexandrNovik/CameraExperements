@@ -42,10 +42,6 @@ public class CameraPreview extends OesFilter {
 
     public boolean useFront = true;
 
-    public boolean isUseFront() {
-        return useFront;
-    }
-
     public void setUseFront(boolean useFront) {
         if (this.useFront != useFront) {
             this.useFront = useFront;

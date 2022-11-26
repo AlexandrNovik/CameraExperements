@@ -19,8 +19,7 @@ val cameraModule = module {
         }
     }
 
-    val effectsDataManager: BeanDefinition<EffectsDataManager> =
-        single(named("effectsDataManager")) {
+    val effectsDataManager: BeanDefinition<EffectsDataManager> = single(named("effectsDataManager")) {
             EffectsDataManager()
         }
 
@@ -44,11 +43,10 @@ val cameraModule = module {
                 texture = surfaceTexture.apply {
                     setOnFrameAvailableListener { glView.requestRender() }
                 }
+            }.apply {
+                setUseFront(true)
+                glView.setRenderer(this)
             }
-                .apply {
-                    setUseFront(true)
-                    glView.setRenderer(this)
-                }
         }
     }
 }

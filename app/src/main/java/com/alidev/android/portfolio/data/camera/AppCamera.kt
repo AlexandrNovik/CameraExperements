@@ -52,7 +52,7 @@ class AppCamera {
                     cameraProvider.bindToLifecycle(owner, cameraSelector, preview)
 
                 preview?.setSurfaceProvider {
-                    it.provideSurface(Surface(texture), cameraExecutor, {})
+                    it.provideSurface(Surface(texture), cameraExecutor) {}
                 }
             } catch (e: Exception) {
                 Logger.e("[CAMERA] Binding failed", e)
