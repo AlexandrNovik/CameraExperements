@@ -4,15 +4,16 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.opengl.GLSurfaceView
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.alexandnovik.camera.data.camera.AppCamera
 import com.alexandnovik.camera.databinding.FragmentMainBinding
 import com.alexandnovik.camera.utils.extensions.setTopInsetsMargin
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
@@ -40,6 +41,9 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         addGlSurfaceView()
         requestPermissions(arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION)
+        binding?.add?.setOnClickListener {
+            viewModel.add()
+        }
     }
 
     override fun onDestroy() {
@@ -90,8 +94,8 @@ class MainFragment : Fragment() {
 
     private fun tryOpenCamera() {
         binding?.let {
-            Handler(Looper.getMainLooper()).post {
-                camera.openCamera(it.mainCameraContainer, this)
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                camera.openCamera(it.mainCameraContainer, this@MainFragment)
             }
         }
     }
