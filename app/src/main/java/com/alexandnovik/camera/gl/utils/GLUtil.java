@@ -1,5 +1,6 @@
 package com.alexandnovik.camera.gl.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 import static android.opengl.GLES20.GL_COMPILE_STATUS;
 import static android.opengl.GLES20.GL_FRAGMENT_SHADER;
@@ -34,10 +36,12 @@ import static android.opengl.GLES20.glLinkProgram;
 import static android.opengl.GLES20.glShaderSource;
 import static android.opengl.GLES20.glTexParameterf;
 import static android.opengl.GLUtils.texImage2D;
+import static java.util.Objects.requireNonNull;
 
 public class GLUtil {
     private static final String TAG = "opengl-demos";
 
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
     public static void init(Context ctx){
@@ -69,7 +73,7 @@ public class GLUtil {
 
         texImage2D(GL_TEXTURE_2D, 0, bitmap, 0);
 
-        bitmap.recycle();
+        requireNonNull(bitmap).recycle();
 
         glBindTexture(GL_TEXTURE_2D, 0);
 

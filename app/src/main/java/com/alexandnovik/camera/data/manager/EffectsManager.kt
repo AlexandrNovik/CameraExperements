@@ -21,8 +21,7 @@ interface EffectsController {
 }
 
 class EffectsDataManager : EffectsManager, EffectsController {
-    override val haveToApplyEffects: Boolean
-        get() = applyEffects.isNotEmpty()
+    override val haveToApplyEffects: Boolean get() = applyEffects.isNotEmpty()
 
     private val effectsMap: Map<Effect, Filter> =
         mapOf(
